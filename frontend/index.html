@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MovieFlix | Book Your Movie</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#10101a;--card:#1b1a29;--pink:#ff4f9a;--purple:#a78bfa;--muted:#aaa8bd}
+body{font-family:Arial,sans-serif;background:var(--bg);color:#fff}
+header{height:75px;padding:0 7%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff18;background:#10101af2;position:sticky;top:0;z-index:5}
+.logo{font-size:25px;font-weight:bold}.logo span{color:var(--pink)}
+nav{display:flex;gap:28px}nav a{color:#ccc;text-decoration:none;font-size:14px}
+button,a{cursor:pointer}
+.btn{border:0;border-radius:10px;padding:12px 18px;font-weight:bold}
+.primary{background:linear-gradient(100deg,var(--pink),var(--purple));color:white}
+.outline{background:#ffffff0b;border:1px solid #ffffff25;color:white}
+.hero{padding:65px 8%;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:30px;min-height:460px;background:radial-gradient(ellipse at 80% 30%,#673a7940,transparent 55%)}
+.tag{color:#ff8cbd;font-size:11px;letter-spacing:2px;font-weight:bold}
+h1{font-size:clamp(42px,5vw,66px);line-height:1.08;margin:22px 0}
+h1 span,.gradient{background:linear-gradient(90deg,#ff77b3,#b5a0ff);color:transparent;background-clip:text}
+.hero p{color:var(--muted);line-height:1.8;max-width:450px}
+.hero-actions{display:flex;gap:15px;margin-top:25px;flex-wrap:wrap}
+.hero-art{display:flex;justify-content:center;align-items:center;gap:18px;min-height:300px}
+.art-poster{height:280px;width:180px;border-radius:16px;padding:18px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 25px 60px #0007;position:relative;overflow:hidden}
+.art-poster:before{content:"";position:absolute;width:150px;height:150px;background:#ffd0df;border-radius:50%;top:35px;right:-35px;box-shadow:0 0 45px #ff90be}
+.art-poster strong,.art-poster small{position:relative}
+.art-poster strong{font-size:28px;line-height:1.05}
+.art-poster small{font-size:9px;letter-spacing:1px;margin-top:10px}
+.art-one{background:linear-gradient(150deg,#352665,#d84c91 60%,#ffb276);transform:rotate(-5deg)}
+.art-two{background:linear-gradient(150deg,#182c54,#148b99 60%,#e66b9a);transform:rotate(5deg)}
+section.content{padding:45px 8%;max-width:1450px;margin:auto}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px}
+h2{font-size:clamp(27px,3vw,38px);margin-top:9px}
+.muted{color:var(--muted);font-size:13px}
+.filters{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin:25px 0}
+input{background:#1b1a29;color:white;border:1px solid #ffffff20;border-radius:10px;padding:12px 14px;outline:none}
+#search{width:min(100%,280px)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:10px 14px;border:1px solid #ffffff20;border-radius:9px;background:transparent;color:#ddd}
+.chip.active{background:#ff4f9a20;color:#ff9cc5;border-color:var(--pink)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.movie{background:var(--card);border:1px solid #ffffff12;border-radius:15px;overflow:hidden;transition:.2s}
+.movie:hover{transform:translateY(-5px);border-color:#ff4f9a70}
+.poster{height:205px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.poster:after{content:attr(data-icon);position:absolute;right:12px;top:15px;font-size:70px;opacity:.5}
+.poster .rating{z-index:1;align-self:flex-start;background:#10101acc;padding:6px 9px;border-radius:7px;font-size:12px}
+.poster h3{z-index:1;font-size:28px;line-height:1.05;max-width:85%;text-shadow:0 2px 10px #0008}
+.movie-info{padding:15px}
+.movie-info h3{font-size:17px}
+.movie-info p{color:var(--muted);font-size:12px;margin:9px 0 16px}
+.movie-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.price{font-size:14px;font-weight:bold}
+.book{background:#ffffff10;border:1px solid #ffffff18;color:white;border-radius:8px;padding:10px;font-size:12px}
+.book:hover{background:var(--pink)}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:25px}
+.step{background:var(--card);border:1px solid #ffffff12;border-radius:14px;padding:24px}
+.step b{color:#ff84b8;font-size:25px}.step h3{margin:18px 0 8px}.step p{color:var(--muted);font-size:13px;line-height:1.7}
+footer{border-top:1px solid #ffffff15;padding:25px 8%;display:flex;justify-content:space-between;gap:15px;color:var(--muted);font-size:12px}
+.modal-bg{position:fixed;inset:0;background:#000c;z-index:10;display:none;place-items:center;padding:15px}
+.modal{background:#1b1a29;border:1px solid #ffffff20;border-radius:18px;padding:25px;width:min(540px,100%);max-height:90vh;overflow:auto;position:relative}
+.close{float:right;background:transparent;border:0;color:white;font-size:27px}
+.modal h2{font-size:25px;margin:10px 35px 10px 0}
+.times{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.time{background:#ffffff0a;border:1px solid #ffffff25;color:white;border-radius:8px;padding:10px}
+.time.active{border-color:var(--pink);background:#ff4f9a22}
+.screen{text-align:center;font-size:10px;letter-spacing:4px;margin:22px 0 8px}
+.screen-line{height:4px;width:80%;margin:auto;background:linear-gradient(90deg,transparent,#d4b8ff,transparent);box-shadow:0 5px 18px #a78bfa80}
+.seats{display:grid;grid-template-columns:repeat(8,1fr);gap:7px;max-width:360px;margin:22px auto}
+.seat{padding:8px 0;border:1px solid #6c6485;background:#28253b;color:white;border-radius:6px;font-size:10px}
+.seat.selected{background:var(--pink);border-color:var(--pink)}
+.seat.taken{background:#444151;color:#888;border-color:#444151;cursor:not-allowed}
+.summary{display:flex;justify-content:space-between;gap:12px;padding:15px 0;border-top:1px solid #ffffff20;margin-top:12px}
+.summary small{display:block;color:var(--muted);margin-top:5px}
+.full{width:100%;margin-top:12px}
+.form-field{display:block;margin:15px 0}
+.form-field label{display:block;font-size:13px;margin-bottom:7px}
+.form-field input{width:100%}
+#message{color:#ff9cc5;font-size:13px;margin-top:10px}
+@media(max-width:800px){.hero{grid-template-columns:1fr;padding:45px 6%}.hero-art{min-height:280px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.content{padding-left:6%!important;padding-right:6%!important}nav{gap:12px}}
+@media(max-width:520px){header{padding:0 5%;height:65px}nav{display:none}.logo{font-size:22px}.hero-art{gap:10px}.art-poster{width:44%;height:235px}.grid{grid-template-columns:1fr 1fr;gap:10px}.poster{height:160px;padding:11px}.poster h3{font-size:21px}.movie-info{padding:11px}.movie-info h3{font-size:14px}.movie-bottom{align-items:flex-start;flex-direction:column}.book{width:100%}.how-grid{grid-template-columns:1fr}.section-head{align-items:flex-start;flex-direction:column}footer{flex-wrap:wrap}.seats{gap:4px}.seat{font-size:9px}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#home" style="text-decoration:none;color:white">movie<span>flix</span></a>
+  <nav><a href="#home">Home</a><a href="#movies">Movies</a><a href="#how">How it works</a></nav>
+  <button class="btn outline" id="myBookings">My bookings</button>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div>
+    <div class="tag">✦ YOUR NEXT MOVIE NIGHT STARTS HERE</div>
+    <h1>Stories worth<br>going <span>out for.</span></h1>
+    <p>Discover your next favourite, choose your seats, and make it a night to remember.</p>
+    <div class="hero-actions"><a class="btn primary" href="#movies" style="text-decoration:none">Explore movies ↗</a><a class="btn outline" href="#how" style="text-decoration:none">How it works ↓</a></div>
+  </div>
+  <div class="hero-art">
+    <div class="art-poster art-one"><strong>THE<br>LAST<br>LIGHT</strong><small>ONE NIGHT CHANGES EVERYTHING</small></div>
+    <div class="art-poster art-two"><strong>NEON<br>RUN</strong><small>THE CITY NEVER SLEEPS</small></div>
+  </div>
+</section>
+
+<section class="content" id="movies">
+  <div class="section-head"><div><div class="tag">NOW SHOWING</div><h2>Find your <span class="gradient">next favourite.</span></h2></div><span class="muted" id="count">6 films</span></div>
+  <div class="filters">
+    <input id="search" placeholder="⌕  Search movies..." aria-label="Search movies">
+    <div class="chips" id="chips"><button class="chip active" data-genre="All">All films</button><button class="chip" data-genre="Action">Action</button><button class="chip" data-genre="Sci-Fi">Sci-Fi</button><button class="chip" data-genre="Drama">Drama</button><button class="chip" data-genre="Comedy">Comedy</button></div>
+  </div>
+  <div class="grid" id="movieGrid"></div>
+</section>
+
+<section class="content" id="how">
+  <div class="tag">THREE STEPS. ZERO STRESS.</div><h2>Make it a <span class="gradient">movie night.</span></h2>
+  <div class="how-grid">
+    <article class="step"><b>01</b><h3>Pick your movie</h3><p>Browse the lineup and find the story you want to see.</p></article>
+    <article class="step"><b>02</b><h3>Choose your seats</h3><p>Choose available seats and a showtime that works for you.</p></article>
+    <article class="step"><b>03</b><h3>Confirm your booking</h3><p>Get a demo booking reference and view it in My Bookings.</p></article>
+  </div>
+</section>
+</main>
+
+<footer><strong style="color:white">movie<span style="color:#ff4f9a">flix</span></strong><span>Made for people who love a good story.</span><span>© 2026 MovieFlix</span></footer>
+
+<div class="modal-bg" id="modalBg"><div class="modal"><button class="close" id="close">×</button><div id="modalContent"></div></div></div>
+
+<script>
+const movies=[
+{id:1,title:"The Last Light",genre:"Sci-Fi",year:2026,duration:"2h 08m",rating:8.9,price:220,icon:"☾",bg:"linear-gradient(145deg,#31245f,#d94c91 60%,#ffb17c)"},
+{id:2,title:"Neon Run",genre:"Action",year:2026,duration:"1h 56m",rating:8.4,price:200,icon:"⚡",bg:"linear-gradient(145deg,#101b47,#087c91 55%,#ee4f8d)"},
+{id:3,title:"A Quiet Place",genre:"Drama",year:2025,duration:"2h 02m",rating:8.7,price:180,icon:"✿",bg:"linear-gradient(145deg,#234b42,#7da77b 55%,#e2b786)"},
+{id:4,title:"Orbit 9",genre:"Sci-Fi",year:2026,duration:"2h 14m",rating:9.1,price:250,icon:"◎",bg:"linear-gradient(145deg,#10152d,#5145a4 55%,#71c9e8)"},
+{id:5,title:"Almost Famous",genre:"Comedy",year:2025,duration:"1h 48m",rating:7.9,price:170,icon:"☀",bg:"linear-gradient(145deg,#7d3b48,#f08b5e 58%,#f8ce85)"},
+{id:6,title:"Shadow Protocol",genre:"Action",year:2026,duration:"2h 06m",rating:8.2,price:210,icon:"◈",bg:"linear-gradient(145deg,#131723,#55536c 55%,#bd526f)"}
+];
+let genre="All",movie=null,time="7:30 PM",seats=[];
+const $=id=>document.getElementById(id);
+function render(){
+ const q=$("search").value.toLowerCase().trim();
+ const list=movies.filter(m=>(genre==="All"||m.genre===genre)&&(m.title.toLowerCase().includes(q)||m.genre.toLowerCase().includes(q)));
+ $("count").textContent=list.length+" films";
+ $("movieGrid").innerHTML=list.length?list.map(m=>`<article class="movie"><div class="poster" style="background:${m.bg}" data-icon="${m.icon}"><span class="rating">★ ${m.rating}</span><h3>${m.title.toUpperCase()}</h3></div><div class="movie-info"><h3>${m.title}</h3><p>${m.genre} · ${m.year} · ${m.duration}</p><div class="movie-bottom"><span class="price">₹${m.price} <small class="muted">/ ticket</small></span><button class="book" data-book="${m.id}">Book tickets ↗</button></div></div></article>`).join(""):'<p class="muted">No movies found. Try another search.</p>';
+ document.querySelectorAll("[data-book]").forEach(b=>b.onclick=()=>openBooking(+b.dataset.book));
+}
+function showModal(html){$("modalContent").innerHTML=html;$("modalBg").style.display="grid"}
+function closeModal(){$("modalBg").style.display="none"}
+function openBooking(id){
+ movie=movies.find(m=>m.id===id);time="7:30 PM";seats=[];
+ const taken=[3,8,14,17,22,29],times=["12:30 PM","3:45 PM","7:30 PM","10:15 PM"];
+ showModal(`<h2 id="modalTitle">Book ${movie.title}</h2><p class="muted">${movie.genre} · ${movie.duration} · Today</p><p style="margin-top:20px">Choose a showtime</p><div class="times">${times.map(t=>`<button class="time ${t===time?'active':''}" data-time="${t}">${t}</button>`).join("")}</div><div class="screen">SCREEN THIS WAY</div><div class="screen-line"></div><div class="seats">${Array.from({length:32},(_,i)=>{let n=i+1;return `<button class="seat ${taken.includes(n)?'taken':''}" data-seat="${n}" ${taken.includes(n)?'disabled':''}>${String.fromCharCode(65+Math.floor(i/8))}${i%8+1}</button>`}).join("")}</div><p class="muted" style="text-align:center">Available · Selected · Booked</p><div class="summary"><div><b id="seatText">No seats selected</b><small>₹${movie.price} per seat</small></div><b id="total">₹0</b></div><button class="btn primary full" id="continue">Continue to details →</button><p id="message"></p>`);
+ document.querySelectorAll("[data-time]").forEach(b=>b.onclick=()=>{time=b.dataset.time;document.querySelectorAll("[data-time]").forEach(x=>x.classList.toggle("active",x===b))});
+ document.querySelectorAll("[data-seat]").forEach(b=>b.onclick=()=>{const s=b.dataset.seat;b.classList.toggle("selected");seats=seats.includes(s)?seats.filter(x=>x!==s):[...seats,s];$("seatText").textContent=seats.length?seats.length+" seat(s): "+seats.join(", "):"No seats selected";$("total").textContent="₹"+seats.length*movie.price});
+ $("continue").onclick=()=>{if(!seats.length){$("message").textContent="Please choose at least one seat.";return}details()};
+}
+function details(){
+ showModal(`<h2 id="modalTitle">Almost movie time!</h2><p class="muted">${movie.title} · ${time} · Seats ${seats.join(", ")}</p><form id="bookingForm"><div class="form-field"><label for="name">Your name</label><input id="name" required maxlength="60" placeholder="Enter your name"></div><div class="form-field"><label for="email">Email address</label><input id="email" type="email" required placeholder="you@example.com"></div><div class="summary"><b>Total amount</b><b>₹${seats.length*movie.price}</b></div><button class="btn primary full">Confirm demo booking ✓</button></form><p class="muted" style="margin-top:12px">Demo only — no payment is taken.</p>`);
+ $("bookingForm").onsubmit=e=>{e.preventDefault();const booking={ref:"FLX-"+Math.random().toString(36).slice(2,8).toUpperCase(),name:$("name").value,movie:movie.title,time,seats:[...seats],total:seats.length*movie.price,date:new Date().toLocaleDateString()};const list=JSON.parse(localStorage.getItem("movieFlixBookings")||"[]");list.unshift(booking);localStorage.setItem("movieFlixBookings",JSON.stringify(list));success(booking)};
+}
+function success(b){showModal(`<h2 id="modalTitle">Booking confirmed!</h2><div class="summary"><div><b>${b.movie}</b><small>${b.date} · ${b.time}<br>Seats: ${b.seats.join(", ")}</small></div><b>₹${b.total}</b></div><div style="text-align:center;padding:25px;border:1px dashed #ff4f9a;border-radius:12px;margin:20px 0"><div style="font-size:36px;color:#80edbd">✓</div><p class="muted">Your demo reference</p><h2 class="gradient">${b.ref}</h2></div><button class="btn primary full" onclick="closeModal()">Done</button>`)}
+function showBookings(){const list=JSON.parse(localStorage.getItem("movieFlixBookings")||"[]");showModal(`<h2 id="modalTitle">My bookings</h2><p class="muted" style="margin:10px 0 20px">Saved in this browser.</p>${list.length?list.map(b=>`<div class="summary"><div><b>${b.movie}</b><small>${b.date} · ${b.time}<br>Seats ${b.seats.join(", ")} · ${b.ref}</small></div><b>₹${b.total}</b></div>`).join(""):'<p class="muted">No bookings yet. Pick a movie to get started.</p>'}`)}
+$("search").addEventListener("input",render);
+$("chips").addEventListener("click",e=>{if(!e.target.dataset.genre)return;genre=e.target.dataset.genre;document.querySelectorAll(".chip").forEach(b=>b.classList.toggle("active",b===e.target));render()});
+$("myBookings").onclick=showBookings;$("close").onclick=closeModal;$("modalBg").onclick=e=>{if(e.target===$("modalBg"))closeModal()};document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+render();
+</script>
+</body>
+</html>

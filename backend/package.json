@@ -1,0 +1,17 @@
+{
+  "name": "movie-ticket-flix",
+  "version": "1.0.0",
+  "description": "Movie Ticket Flix - movie browsing and ticket booking with Node.js and Supabase",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0"
+  }
+}
